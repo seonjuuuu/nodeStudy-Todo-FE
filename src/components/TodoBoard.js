@@ -1,32 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import api from '../utils/api';
+import React from 'react';
 import TodoItem from './TodoItem';
 
-const TodoBoard = () => {
-  const [todoList, setTodoList] = useState([]);
-
-  const getTaskList = async () => {
-    try {
-      const {
-        data: { data },
-      } = await api.get('/tasks');
-      setTodoList(data);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  useEffect(() => {
-    getTaskList();
-  }, []);
-
+const TodoBoard = ({ todoList }) => {
   return (
     <div>
       <h2>Todo List</h2>
-      {todoList.map((item) => (
-        <TodoItem task={item.task} />
-      ))}
-      <h2>There is no Item to show</h2>
+      {todoList.length > 0 ? (
+        todoList.map((item, index) => <TodoItem key={index} task={item.task} />)
+      ) : (
+        <h2>There is no Item to show</h2>
+      )}
     </div>
   );
 };
