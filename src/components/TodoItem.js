@@ -35,7 +35,6 @@ const TodoItem = ({
             color: isComplete ? '#aaa' : 'black',
           }}
         >
-          {' '}
           <div className="todo-content">{task}</div>
           <div>
             <button className="button-delete" onClick={deleteItem}>
