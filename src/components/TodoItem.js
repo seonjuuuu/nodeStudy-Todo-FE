@@ -28,7 +28,14 @@ const TodoItem = ({
   return (
     <Row>
       <Col xs={12}>
-        <div className={`todo-item`}>
+        <div
+          className={`todo-item`}
+          style={{
+            backgroundColor: isComplete ? '#f0f0f0' : 'white',
+            color: isComplete ? '#aaa' : 'black',
+          }}
+        >
+          {' '}
           <div className="todo-content">{task}</div>
           <div>
             <button className="button-delete" onClick={deleteItem}>
