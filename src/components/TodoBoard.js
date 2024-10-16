@@ -1,12 +1,19 @@
 import React from 'react';
 import TodoItem from './TodoItem';
 
-const TodoBoard = ({ todoList }) => {
+const TodoBoard = ({ todoList, getTaskList }) => {
   return (
     <div>
       <h2>Todo List</h2>
       {todoList.length > 0 ? (
-        todoList.map((item, index) => <TodoItem key={index} task={item.task} />)
+        todoList.map((item, index) => (
+          <TodoItem
+            key={index}
+            task={item.task}
+            id={item._id}
+            getTaskList={getTaskList}
+          />
+        ))
       ) : (
         <h2>There is no Item to show</h2>
       )}

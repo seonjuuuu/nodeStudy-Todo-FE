@@ -70,7 +70,7 @@ function App() {
         </Col>
       </Row>
 
-      <TodoBoard todoList={todoList} />
+      <TodoBoard todoList={todoList} getTaskList={getTaskList} />
     </Container>
   );
 }
