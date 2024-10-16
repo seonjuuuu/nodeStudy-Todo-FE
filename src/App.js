@@ -51,6 +51,33 @@ function App() {
     }
   };
 
+  const handleDeleteTask = async (id) => {
+    try {
+      const res = await api.delete(`/tasks/${id}`);
+      if (res.status !== 200) throw Error('fail delete');
+      getTaskList();
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleUpdateTask = async (id) => {
+    try {
+      const taskUpdate = todoList.find((item) => item._id === id);
+      if (!taskUpdate) return;
+
+      const updateData = {
+        ...taskUpdate,
+        isComplete: !taskUpdate.isComplete,
+      };
+      const res = await api.put(`/tasks/${id}`, updateData);
+      if (res.status !== 200) throw Error('fail update');
+      getTaskList();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <Container>
       <Row className="add-item-row">
@@ -70,7 +97,11 @@ function App() {
         </Col>
       </Row>
 
-      <TodoBoard todoList={todoList} getTaskList={getTaskList} />
+      <TodoBoard
+        todoList={todoList}
+        handleDeleteTask={handleDeleteTask}
+        handleUpdateTask={handleUpdateTask}
+      />
     </Container>
   );
 }

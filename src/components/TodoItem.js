@@ -1,14 +1,25 @@
 import React from 'react';
 import { Col, Row } from 'react-bootstrap';
-import api from '../utils/api';
 
-const TodoItem = ({ task, id, getTaskList }) => {
+const TodoItem = ({
+  task,
+  id,
+  handleDeleteTask,
+  handleUpdateTask,
+  isComplete,
+}) => {
   const deleteItem = async () => {
     if (!window.confirm('정말 삭제하시겠습니까?')) return;
     try {
-      const res = await api.delete(`/tasks/${id}`);
-      if (res.status !== 200) throw Error('fail delete');
-      getTaskList();
+      await handleDeleteTask(id);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const changeComplete = async () => {
+    try {
+      await handleUpdateTask(id);
     } catch (err) {
       console.error(err);
     }
@@ -23,7 +34,9 @@ const TodoItem = ({ task, id, getTaskList }) => {
             <button className="button-delete" onClick={deleteItem}>
               삭제
             </button>
-            <button className="button-delete">끝남</button>
+            <button className="button-delete" onClick={changeComplete}>
+              {isComplete ? '끝남' : '안끝남'}
+            </button>
           </div>
         </div>
       </Col>
