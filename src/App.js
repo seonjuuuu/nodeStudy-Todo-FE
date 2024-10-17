@@ -28,10 +28,6 @@ function App() {
     getTaskList();
   }, []);
 
-  const handleAddTask = () => {
-    addTask();
-  };
-
   const init = () => {
     setTaskValue('');
   };
@@ -78,6 +74,14 @@ function App() {
     }
   };
 
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      if (event.nativeEvent.isComposing) return;
+      event.preventDefault();
+      addTask();
+    }
+  };
+
   return (
     <Container>
       <Row className="add-item-row">
@@ -88,10 +92,11 @@ function App() {
             className="input-box"
             value={taskValue}
             onChange={(event) => setTaskValue(event.target.value)}
+            onKeyDown={handleKeyDown}
           />
         </Col>
         <Col xs={12} sm={2}>
-          <button className="button-add" onClick={handleAddTask}>
+          <button className="button-add" onClick={addTask}>
             추가
           </button>
         </Col>
