@@ -2,12 +2,14 @@ import React, { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../utils/api';
 import styles from './RegisterPage.module.scss';
+import Loading from '../components/Loading';
 
 const RegisterPage = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [repassword, setRepassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const nameRef = useRef(null);
   const emailRef = useRef(null);
@@ -21,6 +23,7 @@ const RegisterPage = () => {
     if (!validation()) {
       return;
     }
+    setIsLoading(true);
     try {
       const params = { email, name, password };
       const res = await api.post('/user', params);
@@ -34,6 +37,8 @@ const RegisterPage = () => {
         return;
       }
       alert('회원가입에 실패하였습니다.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -85,63 +90,69 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className={styles.container}>
-      <img src="/logo-2.png" alt="logo" className={styles.logo} />
-      <form className={styles.loginBox} onSubmit={handleSubmit}>
-        <h2>회원가입</h2>
-        <div className={styles.formGroup}>
-          <label htmlFor="name">이름</label>
-          <input
-            type="text"
-            id="name"
-            placeholder="이름입력(3~11자)"
-            onChange={(event) => setName(event.target.value)}
-            ref={nameRef}
-            className={styles.input}
-          />
-        </div>
+    <>
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <div className={styles.container}>
+          <img src="/logo-2.png" alt="logo" className={styles.logo} />
+          <form className={styles.loginBox} onSubmit={handleSubmit}>
+            <h2>회원가입</h2>
+            <div className={styles.formGroup}>
+              <label htmlFor="name">이름</label>
+              <input
+                type="text"
+                id="name"
+                placeholder="이름입력(3~11자)"
+                onChange={(event) => setName(event.target.value)}
+                ref={nameRef}
+                className={styles.input}
+              />
+            </div>
 
-        <div className={styles.formGroup}>
-          <label htmlFor="email">이메일</label>
-          <input
-            type="email"
-            id="email"
-            placeholder="이메일을 입력해 주세요"
-            onChange={(event) => setEmail(event.target.value)}
-            ref={emailRef}
-            className={styles.input}
-          />
-        </div>
+            <div className={styles.formGroup}>
+              <label htmlFor="email">이메일</label>
+              <input
+                type="email"
+                id="email"
+                placeholder="이메일을 입력해 주세요"
+                onChange={(event) => setEmail(event.target.value)}
+                ref={emailRef}
+                className={styles.input}
+              />
+            </div>
 
-        <div className={styles.formGroup}>
-          <label htmlFor="password">비밀번호</label>
-          <input
-            type="password"
-            id="password"
-            placeholder="숫자,대문자,특수문자 포함 최소 8자이상"
-            onChange={(event) => setPassword(event.target.value)}
-            ref={passwordRef}
-            className={styles.input}
-          />
-        </div>
+            <div className={styles.formGroup}>
+              <label htmlFor="password">비밀번호</label>
+              <input
+                type="password"
+                id="password"
+                placeholder="숫자,대문자,특수문자 포함 최소 8자이상"
+                onChange={(event) => setPassword(event.target.value)}
+                ref={passwordRef}
+                className={styles.input}
+              />
+            </div>
 
-        <div className={styles.formGroup}>
-          <label htmlFor="repassword">비밀번호 확인</label>
-          <input
-            type="password"
-            id="repassword"
-            placeholder="숫자,대문자,특수문자 포함 최소 8자이상"
-            onChange={(event) => setRepassword(event.target.value)}
-            ref={repasswordRef}
-            className={styles.input}
-          />
-        </div>
+            <div className={styles.formGroup}>
+              <label htmlFor="repassword">비밀번호 확인</label>
+              <input
+                type="password"
+                id="repassword"
+                placeholder="숫자,대문자,특수문자 포함 최소 8자이상"
+                onChange={(event) => setRepassword(event.target.value)}
+                ref={repasswordRef}
+                className={styles.input}
+              />
+            </div>
 
-        <button type="submit" className={styles.primaryButton}>
-          회원가입
-        </button>
-      </form>
-    </div>
+            <button type="submit" className={styles.primaryButton}>
+              회원가입
+            </button>
+          </form>
+        </div>
+      )}
+    </>
   );
 };
 
