@@ -61,7 +61,7 @@ const TodoBoard = ({ todoList, handleDeleteTask, handleUpdateTask }) => {
             </motion.div>
           ))
         ) : (
-          <h2>There is no Item to show</h2>
+          <p className={styles.noText}> 할일을 입력해 주세요 :) </p>
         )}
       </AnimatePresence>
     </div>
