@@ -86,9 +86,7 @@ const RegisterPage = () => {
 
   return (
     <div className={styles.container}>
-      <h1>
-        <img src="/logo-2.png" alt="logo" className={styles.logo} />
-      </h1>{' '}
+      <img src="/logo-2.png" alt="logo" className={styles.logo} />
       <form className={styles.loginBox} onSubmit={handleSubmit}>
         <h2>회원가입</h2>
         <div className={styles.formGroup}>

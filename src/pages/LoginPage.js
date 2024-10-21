@@ -50,8 +50,8 @@ const LoginPage = () => {
 
   return (
     <div className={styles.container}>
-      <h1>
-        <img src="/logo-2.png" alt="logo" className={styles.logo} />
+      <h1 className={styles.logo}>
+        <img src="/logo-2.png" alt="logo" className={styles.logoImg} />
       </h1>
       <form className={styles.loginBox} onSubmit={handleSubmit}>
         <h2>LOGIN</h2>
