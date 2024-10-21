@@ -1,15 +1,18 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../utils/api';
 import styles from './RegisterPage.module.scss';
 import Loading from '../components/Loading';
+import { CiCircleCheck } from 'react-icons/ci';
 
 const RegisterPage = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [repassword, setRepassword] = useState('');
+  const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const [isValidField, setIsValidField] = useState({});
 
   const nameRef = useRef(null);
   const emailRef = useRef(null);
@@ -42,53 +45,71 @@ const RegisterPage = () => {
     }
   };
 
-  const validation = () => {
-    if (!name) {
-      alert('이름을 입력해 주세요');
-      nameRef.current.focus();
-      return false;
+  const validateField = (field, value) => {
+    const newErrors = { ...errors };
+    const newValidFields = { ...isValidField };
+
+    if (field === 'name') {
+      if (!value) {
+        newErrors.name = '이름을 입력해 주세요';
+      } else if (value.length < 3 || value.length > 11) {
+        newErrors.name = '이름은 최소 3글자 ~ 최대 11글자입니다.';
+      } else {
+        delete newErrors.name;
+        newValidFields.name = true;
+      }
+    } else if (field === 'email') {
+      if (!value) {
+        newErrors.email = '이메일을 입력해 주세요';
+      } else {
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (!emailRegex.test(value)) {
+          newErrors.email = '이메일 형식에 맞지 않습니다.';
+        } else {
+          delete newErrors.email;
+          newValidFields.email = true;
+        }
+      }
+    } else if (field === 'password') {
+      if (!value) {
+        newErrors.password = '비밀번호를 입력해 주세요';
+      } else {
+        const passwordRegex =
+          /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+        if (!passwordRegex.test(value)) {
+          newErrors.password =
+            '비밀번호는 숫자,대문자,특수문자 포함 최소 8자 이상이어야 합니다.';
+        } else {
+          delete newErrors.password;
+          newValidFields.password = true;
+        }
+      }
+    } else if (field === 'repassword') {
+      if (!value) {
+        newErrors.repassword = '비밀번호 확인을 입력해 주세요.';
+      } else if (value !== password) {
+        newErrors.repassword =
+          '비밀번호가 일치하지 않습니다. 다시 확인해 주세요.';
+      } else {
+        delete newErrors.repassword;
+        newValidFields.repassword = true;
+      }
     }
-    if (name.length < 3 || name.length > 11) {
-      alert('이름은 최소 3글자 ~ 최대 11글자입니다.\n글자수를 확인해주세요.');
-      nameRef.current.focus();
-      return false;
-    }
-    if (!email) {
-      alert('이메일을 입력해 주세요');
-      emailRef.current.focus();
-      return false;
-    }
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    if (!emailRegex.test(email)) {
-      alert('이메일 형식에 맞지 않습니다.');
-      emailRef.current.focus();
-      return false;
-    }
-    if (!password) {
-      alert('비밀번호를 입력해 주세요');
-      passwordRef.current.focus();
-      return false;
-    }
-    const passwordRegex =
-      /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
-    if (!passwordRegex.test(password)) {
-      alert('비밀번호는 숫자,대문자,특수문자 포함 최소 8자 이상이어야 합니다.');
-      passwordRef.current.focus();
-      return false;
-    }
-    if (!repassword) {
-      alert('비밀번호 확인을 입력해 주세요.');
-      repasswordRef.current.focus();
-      return false;
-    }
-    if (password !== repassword) {
-      alert('비밀번호가 일치하지 않습니다. 다시 확인해 주세요.');
-      repasswordRef.current.focus();
-      return false;
-    }
-    return true;
+    setErrors(newErrors);
+    setIsValidField(newValidFields);
   };
 
+  const validation = () => {
+    validateField('name', name);
+    validateField('email', email);
+    validateField('password', password);
+    validateField('repassword', repassword);
+    return Object.keys(errors).length === 0;
+  };
+
+  const handleBlur = (field, value) => {
+    validateField(field, value);
+  };
   return (
     <>
       {isLoading ? (
@@ -104,10 +125,17 @@ const RegisterPage = () => {
                 type="text"
                 id="name"
                 placeholder="이름입력(3~11자)"
+                value={name}
                 onChange={(event) => setName(event.target.value)}
+                onBlur={() => handleBlur('name', name)}
                 ref={nameRef}
-                className={styles.input}
+                className={`${styles.input} ${
+                  isValidField.name ? styles.valid : ''
+                }`}
               />
+              {errors.name && (
+                <span className={styles.error}>{errors.name}</span>
+              )}
             </div>
 
             <div className={styles.formGroup}>
@@ -116,10 +144,17 @@ const RegisterPage = () => {
                 type="email"
                 id="email"
                 placeholder="이메일을 입력해 주세요"
+                value={email}
                 onChange={(event) => setEmail(event.target.value)}
+                onBlur={() => handleBlur('email', email)}
                 ref={emailRef}
-                className={styles.input}
+                className={`${styles.input} ${
+                  isValidField.email ? styles.valid : ''
+                }`}
               />
+              {errors.email && (
+                <span className={styles.error}>{errors.email}</span>
+              )}
             </div>
 
             <div className={styles.formGroup}>
@@ -128,10 +163,17 @@ const RegisterPage = () => {
                 type="password"
                 id="password"
                 placeholder="숫자,대문자,특수문자 포함 최소 8자이상"
+                value={password}
                 onChange={(event) => setPassword(event.target.value)}
+                onBlur={() => handleBlur('password', password)}
                 ref={passwordRef}
-                className={styles.input}
+                className={`${styles.input} ${
+                  isValidField.password ? styles.valid : ''
+                }`}
               />
+              {errors.password && (
+                <span className={styles.error}>{errors.password}</span>
+              )}
             </div>
 
             <div className={styles.formGroup}>
@@ -140,10 +182,17 @@ const RegisterPage = () => {
                 type="password"
                 id="repassword"
                 placeholder="숫자,대문자,특수문자 포함 최소 8자이상"
+                value={repassword}
                 onChange={(event) => setRepassword(event.target.value)}
+                onBlur={() => handleBlur('repassword', repassword)}
                 ref={repasswordRef}
-                className={styles.input}
+                className={`${styles.input} ${
+                  isValidField.repassword ? styles.valid : ''
+                }`}
               />
+              {errors.repassword && (
+                <span className={styles.error}>{errors.repassword}</span>
+              )}
             </div>
 
             <button type="submit" className={styles.primaryButton}>
@@ -155,5 +204,4 @@ const RegisterPage = () => {
     </>
   );
 };
-
 export default RegisterPage;

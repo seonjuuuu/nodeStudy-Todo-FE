@@ -34,7 +34,10 @@
     font-weight: 400;
   }
 }
-
+.formBox {
+  display: flex;
+  align-items: center;
+}
 .formGroup {
   margin-bottom: 15px;
 
@@ -51,6 +54,11 @@
     border-radius: 5px;
     font-size: 16px;
     outline: none;
+
+    &.valid {
+      border-color: #4caf50;
+      box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+    }
   }
 }
 
@@ -69,4 +77,9 @@
   &:hover {
     background-color: #424242;
   }
+}
+
+.error {
+  font-size: 12px;
+  color: rgb(255, 81, 81);
 }
