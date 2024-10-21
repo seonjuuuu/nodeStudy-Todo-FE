@@ -2,15 +2,18 @@ import React, { useRef, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import api from '../utils/api';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [user, setUser] = useState('');
 
   const emailRef = useRef();
   const passwordRef = useRef();
+
+  const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -30,9 +33,18 @@ const LoginPage = () => {
         password,
       };
       const res = await api.post('/user/login', params);
-      console.log('res____', res);
+      if (res.status === 200) {
+        setUser(res.data.user);
+        sessionStorage.setItem('token', res.data.token);
+        api.defaults.headers['authorization'] = 'Bearer ' + res.data.token;
+        navigate('/');
+      }
     } catch (error) {
       console.error(error);
+      if (error.message) {
+        alert(error.message);
+        return;
+      }
       alert('로그인에 실패하였습니다.');
     }
   };
