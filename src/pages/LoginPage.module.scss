@@ -11,8 +11,14 @@
   background-color: #f7f7f7;
 }
 
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
 .loginBox {
-  border: 1px solid #333;
+  border: 1px solid #e5e5ea;
   max-width: 600px;
   width: 100%;
   background-color: white;
@@ -20,12 +26,6 @@
   border-radius: 10px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   color: #b1b1b1;
-
-  h2 {
-    text-align: center;
-    margin-bottom: 20px;
-    font-size: 24px;
-  }
 }
 
 .formGroup {

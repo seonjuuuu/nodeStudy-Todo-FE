@@ -1,8 +1,7 @@
 import React, { useRef, useState } from 'react';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import api from '../utils/api';
 import { useNavigate } from 'react-router-dom';
+import api from '../utils/api';
+import styles from './RegisterPage.module.scss';
 
 const RegisterPage = () => {
   const [name, setName] = useState('');
@@ -23,11 +22,7 @@ const RegisterPage = () => {
       return;
     }
     try {
-      const params = {
-        email,
-        name,
-        password,
-      };
+      const params = { email, name, password };
       const res = await api.post('/user', params);
       if (res.status === 200) {
         navigate('/login');
@@ -58,20 +53,17 @@ const RegisterPage = () => {
       emailRef.current.focus();
       return false;
     }
-    if (email) {
-      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-      if (!emailRegex.test(email)) {
-        alert('이메일 형식에 맞지 않습니다.');
-        emailRef.current.focus();
-        return false;
-      }
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailRegex.test(email)) {
+      alert('이메일 형식에 맞지 않습니다.');
+      emailRef.current.focus();
+      return false;
     }
     if (!password) {
       alert('비밀번호를 입력해 주세요');
       passwordRef.current.focus();
       return false;
     }
-
     const passwordRegex =
       /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
     if (!passwordRegex.test(password)) {
@@ -79,14 +71,11 @@ const RegisterPage = () => {
       passwordRef.current.focus();
       return false;
     }
-
     if (!repassword) {
       alert('비밀번호 확인을 입력해 주세요.');
       repasswordRef.current.focus();
-
       return false;
     }
-
     if (password !== repassword) {
       alert('비밀번호가 일치하지 않습니다. 다시 확인해 주세요.');
       repasswordRef.current.focus();
@@ -96,53 +85,64 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className="display-center">
-      <Form className="login-box" onSubmit={handleSubmit}>
-        <h1>회원가입</h1>
-        <Form.Group className="mb-3" controlId="formName">
-          <Form.Label>이름</Form.Label>
-          <Form.Control
-            type="string"
+    <div className={styles.container}>
+      <h1>
+        <img src="/logo-2.png" alt="logo" className={styles.logo} />
+      </h1>{' '}
+      <form className={styles.loginBox} onSubmit={handleSubmit}>
+        <h2>회원가입</h2>
+        <div className={styles.formGroup}>
+          <label htmlFor="name">이름</label>
+          <input
+            type="text"
+            id="name"
             placeholder="이름입력(3~11자)"
             onChange={(event) => setName(event.target.value)}
             ref={nameRef}
+            className={styles.input}
           />
-        </Form.Group>
+        </div>
 
-        <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>이메일</Form.Label>
-          <Form.Control
+        <div className={styles.formGroup}>
+          <label htmlFor="email">이메일</label>
+          <input
             type="email"
-            placeholder="Enter email"
+            id="email"
+            placeholder="이메일을 입력해 주세요"
             onChange={(event) => setEmail(event.target.value)}
             ref={emailRef}
+            className={styles.input}
           />
-        </Form.Group>
+        </div>
 
-        <Form.Group className="mb-3" controlId="formBasicPassword">
-          <Form.Label>비밀번호</Form.Label>
-          <Form.Control
+        <div className={styles.formGroup}>
+          <label htmlFor="password">비밀번호</label>
+          <input
             type="password"
+            id="password"
             placeholder="숫자,대문자,특수문자 포함 최소 8자이상"
             onChange={(event) => setPassword(event.target.value)}
             ref={passwordRef}
+            className={styles.input}
           />
-        </Form.Group>
+        </div>
 
-        <Form.Group className="mb-3" controlId="formBasicPassword">
-          <Form.Label>비밀번호 확인</Form.Label>
-          <Form.Control
+        <div className={styles.formGroup}>
+          <label htmlFor="repassword">비밀번호 확인</label>
+          <input
             type="password"
+            id="repassword"
             placeholder="숫자,대문자,특수문자 포함 최소 8자이상"
             onChange={(event) => setRepassword(event.target.value)}
             ref={repasswordRef}
+            className={styles.input}
           />
-          <p></p>
-        </Form.Group>
-        <Button className="button-primary" type="submit">
+        </div>
+
+        <button type="submit" className={styles.primaryButton}>
           회원가입
-        </Button>
-      </Form>
+        </button>
+      </form>
     </div>
   );
 };
