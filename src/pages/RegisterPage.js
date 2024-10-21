@@ -1,9 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import api from '../utils/api';
 import styles from './RegisterPage.module.scss';
 import Loading from '../components/Loading';
-import { CiCircleCheck } from 'react-icons/ci';
 
 const RegisterPage = () => {
   const [name, setName] = useState('');
