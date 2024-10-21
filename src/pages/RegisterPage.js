@@ -8,9 +8,55 @@ const RegisterPage = () => {
   const [password, setPassword] = useState('');
   const [repassword, setRepassword] = useState('');
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(name, email, password, repassword);
+    if (!validation()) {
+      return;
+    }
+  };
+
+  const validation = () => {
+    if (!name) {
+      alert('이름을 입력해 주세요');
+      return false;
+    }
+    if (name.length < 3 || name.length > 11) {
+      alert('이름은 최소 3글자 ~ 최대 11글자입니다.\n글자수를 확인해주세요.');
+      return false;
+    }
+    if (!email) {
+      alert('이메일을 입력해 주세요');
+      return false;
+    }
+    if (email) {
+      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      if (!emailRegex.test(email)) {
+        alert('이메일 형식에 맞지 않습니다.');
+        return false;
+      }
+    }
+    if (!password) {
+      alert('비밀번호를 입력해 주세요');
+      return false;
+    }
+
+    const passwordRegex =
+      /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+    if (!passwordRegex.test(password)) {
+      alert('비밀번호는 숫자,대문자,특수문자 포함 최소 8자 이상이어야 합니다.');
+      return false;
+    }
+
+    if (!repassword) {
+      alert('확인 비밀번호를 입력해 주세요');
+      return false;
+    }
+
+    if (password !== repassword) {
+      alert('확인 비밀번호가 일치하지 않습니다. 비밀번호를 확인해주세요.');
+      return false;
+    }
+    return true;
   };
 
   return (
@@ -18,16 +64,16 @@ const RegisterPage = () => {
       <Form className="login-box" onSubmit={handleSubmit}>
         <h1>회원가입</h1>
         <Form.Group className="mb-3" controlId="formName">
-          <Form.Label>Name</Form.Label>
+          <Form.Label>이름</Form.Label>
           <Form.Control
             type="string"
-            placeholder="Name"
+            placeholder="이름입력(3~11자)"
             onChange={(event) => setName(event.target.value)}
           />
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>Email address</Form.Label>
+          <Form.Label>이메일</Form.Label>
           <Form.Control
             type="email"
             placeholder="Enter email"
@@ -36,23 +82,23 @@ const RegisterPage = () => {
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formBasicPassword">
-          <Form.Label>Password</Form.Label>
+          <Form.Label>비밀번호</Form.Label>
           <Form.Control
             type="password"
-            placeholder="Password"
+            placeholder="숫자,대문자,특수문자 포함 최소 8자이상"
             onChange={(event) => setPassword(event.target.value)}
           />
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formBasicPassword">
-          <Form.Label>re-enter the password</Form.Label>
+          <Form.Label>비밀번호 확인</Form.Label>
           <Form.Control
             type="password"
-            placeholder="re-enter the password"
+            placeholder="숫자,대문자,특수문자 포함 최소 8자이상"
             onChange={(event) => setRepassword(event.target.value)}
           />
+          <p></p>
         </Form.Group>
-
         <Button className="button-primary" type="submit">
           회원가입
         </Button>
