@@ -83,3 +83,20 @@
   font-size: 12px;
   color: rgb(255, 81, 81);
 }
+
+.link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 18px;
+  font-size: 14px;
+
+  a {
+    color: #444444;
+    text-decoration: underline;
+
+    &:hover {
+      font-weight: bold;
+    }
+  }
+}

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import api from '../utils/api';
 import styles from './RegisterPage.module.scss';
 import Loading from '../components/Loading';
@@ -198,6 +198,9 @@ const RegisterPage = () => {
             <button type="submit" className={styles.primaryButton}>
               회원가입
             </button>
+            <span className={styles.link}>
+              이미 회원이신가요? <Link to="/login"> 로그인 하기</Link>
+            </span>
           </form>
         </div>
       )}
