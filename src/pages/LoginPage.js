@@ -1,9 +1,8 @@
 import React, { useRef, useState } from 'react';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-
 import { Link, useNavigate } from 'react-router-dom';
 import api from '../utils/api';
+
+import styles from './LoginPage.module.scss';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -50,37 +49,44 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="display-center">
-      <Form className="login-box" onSubmit={handleSubmit}>
-        <h1>로그인</h1>
-        <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>Email address</Form.Label>
-          <Form.Control
+    <div className={styles.container}>
+      <h1>
+        <img src="/logo-2.png" alt="logo" className={styles.logo} />
+      </h1>
+      <form className={styles.loginBox} onSubmit={handleSubmit}>
+        <h2>LOGIN</h2>
+        <div className={styles.formGroup}>
+          <label htmlFor="email">이메일</label>
+          <input
             type="email"
-            placeholder="Enter email"
+            id="email"
+            placeholder="이메일을 입력해주세요"
             onChange={(event) => setEmail(event.target.value)}
             ref={emailRef}
+            className={styles.input}
           />
-        </Form.Group>
+        </div>
 
-        <Form.Group className="mb-3" controlId="formBasicPassword">
-          <Form.Label>Password</Form.Label>
-          <Form.Control
+        <div className={styles.formGroup}>
+          <label htmlFor="password">비밀번호</label>
+          <input
             type="password"
-            placeholder="Password"
+            id="password"
+            placeholder="비밀번호를 입력해주세요"
             onChange={(event) => setPassword(event.target.value)}
             ref={passwordRef}
+            className={styles.input}
           />
-        </Form.Group>
-        <div className="button-box">
-          <Button type="submit" className="button-primary">
-            Login
-          </Button>
-          <span>
+        </div>
+        <div className={styles.buttonBox}>
+          <button type="submit" className={styles.primaryButton}>
+            LOGIN
+          </button>
+          <span className={styles.link}>
             계정이 없다면? <Link to="/register">회원가입 하기</Link>
           </span>
         </div>
-      </Form>
+      </form>
     </div>
   );
 };
