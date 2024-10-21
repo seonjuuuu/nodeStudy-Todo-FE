@@ -34,6 +34,10 @@ const RegisterPage = () => {
       }
     } catch (error) {
       console.error('error');
+      if (error.message) {
+        alert(error.message);
+        return;
+      }
       alert('회원가입에 실패하였습니다.');
     }
   };
