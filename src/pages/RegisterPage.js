@@ -1,6 +1,8 @@
 import React, { useRef, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import api from '../utils/api';
+import { useNavigate } from 'react-router-dom';
 
 const RegisterPage = () => {
   const [name, setName] = useState('');
@@ -13,10 +15,26 @@ const RegisterPage = () => {
   const passwordRef = useRef(null);
   const repasswordRef = useRef(null);
 
+  const navigate = useNavigate();
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (!validation()) {
       return;
+    }
+    try {
+      const params = {
+        email,
+        name,
+        password,
+      };
+      const res = await api.post('/user', params);
+      if (res.status === 200) {
+        navigate('/login');
+      }
+    } catch (error) {
+      console.error('error');
+      alert('회원가입에 실패하였습니다.');
     }
   };
 
