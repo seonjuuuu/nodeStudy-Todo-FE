@@ -33,6 +33,10 @@ function TodoPage() {
   };
 
   const addTask = async () => {
+    if (taskValue.trim.length === 0) {
+      alert('할일을 입력해 주세요');
+      return;
+    }
     try {
       const params = {
         task: taskValue,
@@ -82,6 +86,10 @@ function TodoPage() {
     }
   };
 
+  const handleTask = (event) => {
+    setTaskValue(event.target.value);
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.addItemRow}>
@@ -91,7 +99,7 @@ function TodoPage() {
             placeholder="할일을 입력하세요"
             className={styles.inputBox}
             value={taskValue}
-            onChange={(event) => setTaskValue(event.target.value)}
+            onChange={handleTask}
             onKeyDown={handleKeyDown}
           />
         </div>
