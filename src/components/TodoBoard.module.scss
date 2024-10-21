@@ -7,11 +7,16 @@
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
-  h2 {
-    font-size: 24px;
-    font-weight: 700;
+  .date {
     color: #333;
     margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+  }
+  .date2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   .noItems {
@@ -19,4 +24,19 @@
     color: #999;
     text-align: center;
   }
+}
+
+.year {
+  font-weight: 300;
+  font-size: 14px;
+}
+
+.day {
+  font-size: 40px;
+  font-weight: 700;
+}
+
+.month {
+  font-size: 14px;
+  margin-left: 6px;
 }
