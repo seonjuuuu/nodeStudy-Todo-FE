@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './TodoItem.module.scss';
+import { HiTrash } from 'react-icons/hi2';
 
 const TodoItem = ({
   task,
@@ -27,22 +28,23 @@ const TodoItem = ({
 
   return (
     <div className={styles.todoItem}>
+      <div className={styles.customCheckbox}>
+        <input
+          type="checkbox"
+          id={`checkbox-${id}`}
+          className={styles.checkbox}
+          checked={isComplete}
+          onChange={changeComplete}
+        />
+        <label htmlFor={`checkbox-${id}`}></label>
+      </div>
       <div
-        className={styles.todoContent}
-        style={{
-          backgroundColor: isComplete ? '#f0f0f0' : 'white',
-          color: isComplete ? '#aaa' : 'black',
-        }}
+        className={`${styles.todoContent} ${isComplete ? styles.completed : ''}`}
       >
         <div>{task}</div>
-        <div>
-          <button className={styles.buttonDelete} onClick={deleteItem}>
-            삭제
-          </button>
-          <button className={styles.buttonDelete} onClick={changeComplete}>
-            {isComplete ? '끝남' : '안끝남'}
-          </button>
-        </div>
+        <button className={styles.buttonDelete} onClick={deleteItem}>
+          <HiTrash size="25" />
+        </button>
       </div>
     </div>
   );
