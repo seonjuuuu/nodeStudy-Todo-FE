@@ -3,7 +3,12 @@ import TodoItem from './TodoItem';
 import styles from './TodoBoard.module.scss';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const TodoBoard = ({ todoList, handleDeleteTask, handleUpdateTask }) => {
+const TodoBoard = ({
+  todoList,
+  handleDeleteTask,
+  handleUpdateTask,
+  taskLoading,
+}) => {
   const [month, setMonth] = useState('');
   const [day, setDay] = useState('');
   const [year, setYear] = useState('');
@@ -57,6 +62,7 @@ const TodoBoard = ({ todoList, handleDeleteTask, handleUpdateTask }) => {
                 handleDeleteTask={handleDeleteTask}
                 handleUpdateTask={handleUpdateTask}
                 isComplete={item.isComplete}
+                isLoading={taskLoading[item._id]}
               />
             </motion.div>
           ))
