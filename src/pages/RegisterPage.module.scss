@@ -8,7 +8,11 @@
   width: 250px;
   margin-bottom: 20px;
 }
-
+.loginWrapper {
+  max-width: 600px;
+  width: 100%;
+  padding: 20px;
+}
 .container {
   display: flex;
   flex-direction: column;
@@ -20,8 +24,7 @@
 
 .loginBox {
   border: 1px solid #e5e5ea;
-  max-width: 600px;
-  width: 100%;
+
   background-color: white;
   padding: 20px;
   border-radius: 10px;

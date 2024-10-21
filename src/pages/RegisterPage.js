@@ -117,91 +117,93 @@ const RegisterPage = () => {
       ) : (
         <div className={styles.container}>
           <img src="/logo-2.png" alt="logo" className={styles.logo} />
-          <form className={styles.loginBox} onSubmit={handleSubmit}>
-            <h2>회원가입</h2>
-            <div className={styles.formGroup}>
-              <label htmlFor="name">이름</label>
-              <input
-                type="text"
-                id="name"
-                placeholder="이름입력(3~11자)"
-                value={name}
-                onChange={(event) => setName(event.target.value)}
-                onBlur={() => handleBlur('name', name)}
-                ref={nameRef}
-                className={`${styles.input} ${
-                  isValidField.name ? styles.valid : ''
-                }`}
-              />
-              {errors.name && (
-                <span className={styles.error}>{errors.name}</span>
-              )}
-            </div>
+          <div className={styles.loginWrapper}>
+            <form className={styles.loginBox} onSubmit={handleSubmit}>
+              <h2>회원가입</h2>
+              <div className={styles.formGroup}>
+                <label htmlFor="name">이름</label>
+                <input
+                  type="text"
+                  id="name"
+                  placeholder="이름입력(3~11자)"
+                  value={name}
+                  onChange={(event) => setName(event.target.value)}
+                  onBlur={() => handleBlur('name', name)}
+                  ref={nameRef}
+                  className={`${styles.input} ${
+                    isValidField.name ? styles.valid : ''
+                  }`}
+                />
+                {errors.name && (
+                  <span className={styles.error}>{errors.name}</span>
+                )}
+              </div>
 
-            <div className={styles.formGroup}>
-              <label htmlFor="email">이메일</label>
-              <input
-                type="email"
-                id="email"
-                placeholder="이메일을 입력해 주세요"
-                value={email}
-                onChange={(event) => setEmail(event.target.value)}
-                onBlur={() => handleBlur('email', email)}
-                ref={emailRef}
-                className={`${styles.input} ${
-                  isValidField.email ? styles.valid : ''
-                }`}
-              />
-              {errors.email && (
-                <span className={styles.error}>{errors.email}</span>
-              )}
-            </div>
+              <div className={styles.formGroup}>
+                <label htmlFor="email">이메일</label>
+                <input
+                  type="email"
+                  id="email"
+                  placeholder="이메일을 입력해 주세요"
+                  value={email}
+                  onChange={(event) => setEmail(event.target.value)}
+                  onBlur={() => handleBlur('email', email)}
+                  ref={emailRef}
+                  className={`${styles.input} ${
+                    isValidField.email ? styles.valid : ''
+                  }`}
+                />
+                {errors.email && (
+                  <span className={styles.error}>{errors.email}</span>
+                )}
+              </div>
 
-            <div className={styles.formGroup}>
-              <label htmlFor="password">비밀번호</label>
-              <input
-                type="password"
-                id="password"
-                placeholder="숫자,대문자,특수문자 포함 최소 8자이상"
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
-                onBlur={() => handleBlur('password', password)}
-                ref={passwordRef}
-                className={`${styles.input} ${
-                  isValidField.password ? styles.valid : ''
-                }`}
-              />
-              {errors.password && (
-                <span className={styles.error}>{errors.password}</span>
-              )}
-            </div>
+              <div className={styles.formGroup}>
+                <label htmlFor="password">비밀번호</label>
+                <input
+                  type="password"
+                  id="password"
+                  placeholder="숫자,대문자,특수문자 포함 최소 8자이상"
+                  value={password}
+                  onChange={(event) => setPassword(event.target.value)}
+                  onBlur={() => handleBlur('password', password)}
+                  ref={passwordRef}
+                  className={`${styles.input} ${
+                    isValidField.password ? styles.valid : ''
+                  }`}
+                />
+                {errors.password && (
+                  <span className={styles.error}>{errors.password}</span>
+                )}
+              </div>
 
-            <div className={styles.formGroup}>
-              <label htmlFor="repassword">비밀번호 확인</label>
-              <input
-                type="password"
-                id="repassword"
-                placeholder="숫자,대문자,특수문자 포함 최소 8자이상"
-                value={repassword}
-                onChange={(event) => setRepassword(event.target.value)}
-                onBlur={() => handleBlur('repassword', repassword)}
-                ref={repasswordRef}
-                className={`${styles.input} ${
-                  isValidField.repassword ? styles.valid : ''
-                }`}
-              />
-              {errors.repassword && (
-                <span className={styles.error}>{errors.repassword}</span>
-              )}
-            </div>
+              <div className={styles.formGroup}>
+                <label htmlFor="repassword">비밀번호 확인</label>
+                <input
+                  type="password"
+                  id="repassword"
+                  placeholder="숫자,대문자,특수문자 포함 최소 8자이상"
+                  value={repassword}
+                  onChange={(event) => setRepassword(event.target.value)}
+                  onBlur={() => handleBlur('repassword', repassword)}
+                  ref={repasswordRef}
+                  className={`${styles.input} ${
+                    isValidField.repassword ? styles.valid : ''
+                  }`}
+                />
+                {errors.repassword && (
+                  <span className={styles.error}>{errors.repassword}</span>
+                )}
+              </div>
 
-            <button type="submit" className={styles.primaryButton}>
-              회원가입
-            </button>
-            <span className={styles.link}>
-              이미 회원이신가요? <Link to="/login"> 로그인 하기</Link>
-            </span>
-          </form>
+              <button type="submit" className={styles.primaryButton}>
+                회원가입
+              </button>
+              <span className={styles.link}>
+                이미 회원이신가요? <Link to="/login"> 로그인 하기</Link>
+              </span>
+            </form>
+          </div>
         </div>
       )}
     </>

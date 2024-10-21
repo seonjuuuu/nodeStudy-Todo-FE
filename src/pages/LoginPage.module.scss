@@ -16,11 +16,14 @@
   margin-bottom: 20px;
   font-size: 24px;
 }
+.loginWrapper {
+  max-width: 600px;
+  width: 100%;
+  padding: 20px;
+}
 
 .loginBox {
   border: 1px solid #e5e5ea;
-  max-width: 600px;
-  width: 100%;
   background-color: white;
   padding: 20px;
   border-radius: 10px;
