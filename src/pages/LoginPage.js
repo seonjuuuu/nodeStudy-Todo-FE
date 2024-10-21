@@ -10,6 +10,7 @@ const LoginPage = () => {
   const [password, setPassword] = useState('');
   const [user, setUser] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const emailRef = useRef();
   const passwordRef = useRef();
@@ -42,13 +43,10 @@ const LoginPage = () => {
         api.defaults.headers['authorization'] = 'Bearer ' + res.data.token;
         navigate('/');
       }
+      throw new Error(res.message);
     } catch (error) {
+      setError(error.message);
       console.error(error);
-      if (error.message) {
-        alert(error.message);
-        return;
-      }
-      alert('로그인에 실패하였습니다.');
     } finally {
       setIsLoading(false);
     }
@@ -64,6 +62,7 @@ const LoginPage = () => {
             <img src="/logo-2.png" alt="logo" className={styles.logoImg} />
           </h1>
           <div className={styles.loginWrapper}>
+            {error && <div className={styles.error}>🚨 {error}</div>}
             <form className={styles.loginBox} onSubmit={handleSubmit}>
               <h2>LOGIN</h2>
               <div className={styles.formGroup}>
