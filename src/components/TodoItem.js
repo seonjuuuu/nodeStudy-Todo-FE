@@ -1,5 +1,5 @@
 import React from 'react';
-import { Col, Row } from 'react-bootstrap';
+import styles from './TodoItem.module.scss';
 
 const TodoItem = ({
   task,
@@ -26,27 +26,25 @@ const TodoItem = ({
   };
 
   return (
-    <Row>
-      <Col xs={12}>
-        <div
-          className={`todo-item`}
-          style={{
-            backgroundColor: isComplete ? '#f0f0f0' : 'white',
-            color: isComplete ? '#aaa' : 'black',
-          }}
-        >
-          <div className="todo-content">{task}</div>
-          <div>
-            <button className="button-delete" onClick={deleteItem}>
-              삭제
-            </button>
-            <button className="button-delete" onClick={changeComplete}>
-              {isComplete ? '끝남' : '안끝남'}
-            </button>
-          </div>
+    <div className={styles.todoItem}>
+      <div
+        className={styles.todoContent}
+        style={{
+          backgroundColor: isComplete ? '#f0f0f0' : 'white',
+          color: isComplete ? '#aaa' : 'black',
+        }}
+      >
+        <div>{task}</div>
+        <div>
+          <button className={styles.buttonDelete} onClick={deleteItem}>
+            삭제
+          </button>
+          <button className={styles.buttonDelete} onClick={changeComplete}>
+            {isComplete ? '끝남' : '안끝남'}
+          </button>
         </div>
-      </Col>
-    </Row>
+      </div>
+    </div>
   );
 };
 

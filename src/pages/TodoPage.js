@@ -1,10 +1,7 @@
 import TodoBoard from '../components/TodoBoard';
-
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Container from 'react-bootstrap/Container';
 import { useEffect, useState } from 'react';
 import api from '../utils/api';
+import styles from './TodoPage.module.scss';
 
 function TodoPage() {
   const [taskValue, setTaskValue] = useState('');
@@ -80,31 +77,31 @@ function TodoPage() {
   };
 
   return (
-    <Container>
-      <Row className="add-item-row">
-        <Col xs={12} sm={10}>
+    <div className={styles.container}>
+      <div className={styles.addItemRow}>
+        <div className={styles.inputWrapper}>
           <input
             type="text"
             placeholder="할일을 입력하세요"
-            className="input-box"
+            className={styles.inputBox}
             value={taskValue}
             onChange={(event) => setTaskValue(event.target.value)}
             onKeyDown={handleKeyDown}
           />
-        </Col>
-        <Col xs={12} sm={2}>
-          <button className="button-add" onClick={addTask}>
+        </div>
+        <div>
+          <button className={styles.buttonAdd} onClick={addTask}>
             추가
           </button>
-        </Col>
-      </Row>
+        </div>
+      </div>
 
       <TodoBoard
         todoList={todoList}
         handleDeleteTask={handleDeleteTask}
         handleUpdateTask={handleUpdateTask}
       />
-    </Container>
+    </div>
   );
 }
 

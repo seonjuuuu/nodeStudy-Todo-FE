@@ -1,9 +1,10 @@
 import React from 'react';
 import TodoItem from './TodoItem';
+import styles from './TodoBoard.module.scss';
 
 const TodoBoard = ({ todoList, handleDeleteTask, handleUpdateTask }) => {
   return (
-    <div>
+    <div className={styles.todoBoard}>
       <h2>Todo List</h2>
       {todoList.length > 0 ? (
         todoList.map((item, index) => (
