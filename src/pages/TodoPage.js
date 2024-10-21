@@ -2,19 +2,25 @@ import TodoBoard from '../components/TodoBoard';
 import { useEffect, useState } from 'react';
 import api from '../utils/api';
 import styles from './TodoPage.module.scss';
+import Loading from '../components/Loading';
 
 function TodoPage() {
   const [taskValue, setTaskValue] = useState('');
   const [todoList, setTodoList] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const getTaskList = async () => {
     try {
+      setIsLoading(true);
       const {
         data: { data },
       } = await api.get('/tasks');
       setTodoList(data);
     } catch (err) {
       console.error(err);
+      alert('리스트를 불러오는데 실패하였습니다.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -95,12 +101,15 @@ function TodoPage() {
           </button>
         </div>
       </div>
-
-      <TodoBoard
-        todoList={todoList}
-        handleDeleteTask={handleDeleteTask}
-        handleUpdateTask={handleUpdateTask}
-      />
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <TodoBoard
+          todoList={todoList}
+          handleDeleteTask={handleDeleteTask}
+          handleUpdateTask={handleUpdateTask}
+        />
+      )}
     </div>
   );
 }
