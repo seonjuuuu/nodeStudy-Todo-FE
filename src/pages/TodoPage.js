@@ -33,7 +33,7 @@ function TodoPage() {
   };
 
   const addTask = async () => {
-    if (taskValue.trim.length === 0) {
+    if (taskValue.trim().length === 0) {
       alert('할일을 입력해 주세요');
       return;
     }
