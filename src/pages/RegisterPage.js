@@ -202,7 +202,8 @@ const RegisterPage = () => {
                 )}
               </div>
 
-              <button type="submit" className={styles.primaryButton}>
+              <button type="submit" className={styles.primaryButton} disabled={!allFieldsFilled()}
+              >
                 회원가입
               </button>
               <span className={styles.link}>
