@@ -61,7 +61,8 @@ const TodoBoard = ({
         newOrder: [...list],
       };
       const res = await api.put('/tasks/reorder', params);
-      console.log('res', res);
+      if (res.status === 200) {
+      }
     } catch (error) {
       console.error(error);
     }
