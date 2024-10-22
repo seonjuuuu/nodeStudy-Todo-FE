@@ -16,7 +16,6 @@ const RegisterPage = () => {
 
   const navigate = useNavigate();
 
-  // 필드별 검증 함수
   const validateField = (field, value) => {
     const newErrors = { ...errors };
     const newValidFields = { ...isValidField };
@@ -51,8 +50,14 @@ const RegisterPage = () => {
     if (field === 'password') {
       const passwordRegex =
         /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+      const allowedSpecialChars = /^[A-Za-z\d!@#$%^&*]+$/;
+
       if (value.trim() === '') {
         newErrors.password = '비밀번호를 입력해 주세요';
+        newValidFields.password = false;
+      } else if (!allowedSpecialChars.test(value)) {
+        newErrors.password =
+          '비밀번호에는 허용된 특수문자(!@#$%^&*)만 사용할 수 있습니다.';
         newValidFields.password = false;
       } else if (!passwordRegex.test(value)) {
         newErrors.password =
