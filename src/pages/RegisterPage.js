@@ -30,7 +30,7 @@ const RegisterPage = () => {
       const params = { email, name, password };
       const res = await api.post('/user', params);
       if (res.status === 200) {
-        navigate('/login');
+        navigate('/');
       }
     } catch (error) {
       console.error('error');
