@@ -24,7 +24,12 @@ const RegisterPage = () => {
       newErrors.name = '이름을 입력해 주세요';
       newValidFields.name = false;
     } else {
-      newValidFields.name = true;
+      if(name.length < 3 || name.length > 11) {
+        newErrors.name = '이름은 3~11자 사이로 입력해 주세요';
+        newValidFields.name = false;
+      } else {
+        newValidFields.name = true;
+      }
     }
 
     if (email.trim() === '') {
