@@ -134,7 +134,7 @@ function TodoPage() {
         </div>
       </div>
       <div className={styles.progress}>
-        <p className={styles.progressText}>진행률 {progressTask}%</p>
+        <p className={styles.progressText}>진행률 {progressTask || 0}%</p>
         <div className={styles.progressBar}>
           <ProgressBar progress={progressTask} />
         </div>
