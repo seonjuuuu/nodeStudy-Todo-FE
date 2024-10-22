@@ -50,7 +50,7 @@ const RegisterPage = () => {
     if (field === 'password') {
       const passwordRegex =
         /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
-      const allowedSpecialChars = /^[A-Za-z\d!@#$%^&*]+$/;
+      const allowedSpecialChars = /^[A-Za-z\d!@#$%^&*()]+$/;
 
       if (value.trim() === '') {
         newErrors.password = '비밀번호를 입력해 주세요';
