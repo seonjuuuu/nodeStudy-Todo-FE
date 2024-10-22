@@ -50,6 +50,8 @@ const LoginPage = () => {
       console.error(error);
     } finally {
       setIsLoading(false);
+      setEmail('');
+      setPassword('');
     }
   };
 
