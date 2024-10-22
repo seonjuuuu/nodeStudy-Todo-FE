@@ -12,7 +12,6 @@ function TodoPage() {
   const [progressTask, setProgressTask] = useState(0);
 
   useEffect(() => {
-    console.log('task', todoList);
     const completed = todoList.filter((item) => item.isComplete).length;
     const all = todoList.length;
     const getPercent = (completed / all) * 100;

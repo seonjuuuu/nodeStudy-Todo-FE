@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import TodoItem from './TodoItem';
 import styles from './TodoBoard.module.scss';
-import { motion, AnimatePresence } from 'framer-motion';
 import { PropagateLoader } from 'react-spinners';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import api from '../utils/api';
 
 const TodoBoard = ({
   todoList,
@@ -13,6 +14,8 @@ const TodoBoard = ({
   const [month, setMonth] = useState('');
   const [day, setDay] = useState('');
   const [year, setYear] = useState('');
+  const [list, setList] = useState([]);
+
   useEffect(() => {
     const today = new Date();
     const year = today.getFullYear();
@@ -37,6 +40,33 @@ const TodoBoard = ({
     setYear(year);
   }, []);
 
+  useEffect(() => {
+    const todoListSort = [...todoList].sort((a, b) => a.order - b.order);
+    setList(todoListSort);
+  }, [todoList]);
+
+  const handleOnDragEnd = (result) => {
+    if (!result.destination) return;
+
+    const updatedList = [...list];
+    const [reorderedItem] = updatedList.splice(result.source.index, 1);
+    updatedList.splice(result.destination.index, 0, reorderedItem);
+    setList(updatedList);
+    reorder(updatedList);
+  };
+
+  const reorder = async (list) => {
+    try {
+      const params = {
+        newOrder: [...list],
+      };
+      const res = await api.put('/tasks/reorder', params);
+      console.log('res', res);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <>
       {isLoading && (
@@ -51,30 +81,48 @@ const TodoBoard = ({
             <span className={styles.year}>{year}</span>
             <span className={styles.month}>{month}</span>
           </div>
+          <p className={styles.text}>✨ 드로그앤 드랍이 가능해요 :) </p>
         </h2>
-        <AnimatePresence>
-          {todoList.length > 0 ? (
-            todoList.map((item, index) => (
-              <motion.div
-                key={item._id}
-                initial={{ opacity: 0, x: 100 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -100 }}
-                transition={{ duration: 0.5 }}
+        <DragDropContext onDragEnd={handleOnDragEnd}>
+          <Droppable droppableId="droppable">
+            {(provided) => (
+              <div
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+                className={styles.todoList}
               >
-                <TodoItem
-                  task={item.task}
-                  id={item._id}
-                  handleDeleteTask={handleDeleteTask}
-                  handleUpdateTask={handleUpdateTask}
-                  isComplete={item.isComplete}
-                />
-              </motion.div>
-            ))
-          ) : (
-            <p className={styles.noText}> 할일을 입력해 주세요 :) </p>
-          )}
-        </AnimatePresence>
+                {list.length > 0 ? (
+                  list.map((item, index) => (
+                    <Draggable
+                      key={item._id}
+                      draggableId={item._id}
+                      index={index}
+                    >
+                      {(provided) => (
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                        >
+                          <TodoItem
+                            task={item.task}
+                            id={item._id}
+                            handleDeleteTask={handleDeleteTask}
+                            handleUpdateTask={handleUpdateTask}
+                            isComplete={item.isComplete}
+                          />
+                        </div>
+                      )}
+                    </Draggable>
+                  ))
+                ) : (
+                  <p className={styles.noText}> 할일을 입력해 주세요 :) </p>
+                )}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
       </div>
     </>
   );
