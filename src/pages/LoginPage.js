@@ -42,8 +42,9 @@ const LoginPage = () => {
         sessionStorage.setItem('token', res.data.token);
         api.defaults.headers['authorization'] = 'Bearer ' + res.data.token;
         navigate('/home');
+      } else {
+        throw new Error(res.message);
       }
-      throw new Error(res.message);
     } catch (error) {
       setError(error.message);
       console.error(error);

@@ -49,12 +49,14 @@ const RegisterPage = () => {
     }
 
     if (field === 'password') {
-      const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+      const passwordRegex =
+        /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
       if (value.trim() === '') {
         newErrors.password = '비밀번호를 입력해 주세요';
         newValidFields.password = false;
       } else if (!passwordRegex.test(value)) {
-        newErrors.password = '비밀번호는 숫자, 대문자, 특수문자 포함 최소 8자 이상이어야 합니다.';
+        newErrors.password =
+          '비밀번호는 숫자, 대문자, 특수문자 포함 최소 8자 이상이어야 합니다.';
         newValidFields.password = false;
       } else {
         newErrors.password = '';
@@ -67,7 +69,8 @@ const RegisterPage = () => {
         newErrors.repassword = '비밀번호 확인을 입력해 주세요';
         newValidFields.repassword = false;
       } else if (value !== password) {
-        newErrors.repassword = '비밀번호가 일치하지 않습니다. 다시 확인해 주세요.';
+        newErrors.repassword =
+          '비밀번호가 일치하지 않습니다. 다시 확인해 주세요.';
         newValidFields.repassword = false;
       } else {
         newErrors.repassword = '';
@@ -84,10 +87,10 @@ const RegisterPage = () => {
       field === 'name'
         ? name
         : field === 'email'
-        ? email
-        : field === 'password'
-        ? password
-        : repassword;
+          ? email
+          : field === 'password'
+            ? password
+            : repassword;
     validateField(field, value);
   };
 
@@ -96,7 +99,7 @@ const RegisterPage = () => {
     validateField('email', email);
     validateField('password', password);
     validateField('repassword', repassword);
-    const hasErrors = Object.values(errors).some(error => error !== '');
+    const hasErrors = Object.values(errors).some((error) => error !== '');
 
     return !hasErrors && Object.values(isValidField).every((valid) => valid);
   };
@@ -138,7 +141,9 @@ const RegisterPage = () => {
       ) : (
         <div className={styles.container}>
           <img src="/logo-2.png" alt="logo" className={styles.logo} />
-          {errorMessages && <div className={styles.error}>🚨 {errorMessages}</div>}
+          {errorMessages && (
+            <div className={styles.error}>🚨 {errorMessages}</div>
+          )}
           <div className={styles.loginWrapper}>
             <form className={styles.loginBox} onSubmit={handleSubmit}>
               <h2>회원가입</h2>
@@ -153,7 +158,9 @@ const RegisterPage = () => {
                   onBlur={() => handleBlur('name')}
                   className={`${styles.input} ${isValidField.name ? styles.valid : ''}`}
                 />
-                {errors.name && <span className={styles.error}>{errors.name}</span>}
+                {errors.name && (
+                  <span className={styles.error}>{errors.name}</span>
+                )}
               </div>
 
               <div className={styles.formGroup}>
@@ -167,7 +174,9 @@ const RegisterPage = () => {
                   onBlur={() => handleBlur('email')}
                   className={`${styles.input} ${isValidField.email ? styles.valid : ''}`}
                 />
-                {errors.email && <span className={styles.error}>{errors.email}</span>}
+                {errors.email && (
+                  <span className={styles.error}>{errors.email}</span>
+                )}
               </div>
 
               <div className={styles.formGroup}>
@@ -202,7 +211,10 @@ const RegisterPage = () => {
                 )}
               </div>
 
-              <button type="submit" className={styles.primaryButton} disabled={!allFieldsFilled()}
+              <button
+                type="submit"
+                className={styles.primaryButton}
+                disabled={!allFieldsFilled()}
               >
                 회원가입
               </button>
