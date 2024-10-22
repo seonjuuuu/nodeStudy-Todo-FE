@@ -12,7 +12,27 @@
   align-items: center;
   width: 100%;
   max-width: 800px;
-  margin-bottom: 20px;
+  margin-bottom: 50px;
+}
+
+.progress {
+  max-width: 800px;
+  display: flex;
+  margin-bottom: 30px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.progressBar {
+  flex: 1 0;
+}
+
+.progressText {
+  display: inline-block;
+  font-size: 14px;
+  margin-bottom: 0;
 }
 
 .inputWrapper {

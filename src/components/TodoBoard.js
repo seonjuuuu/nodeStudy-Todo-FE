@@ -2,17 +2,17 @@ import React, { useEffect, useState } from 'react';
 import TodoItem from './TodoItem';
 import styles from './TodoBoard.module.scss';
 import { motion, AnimatePresence } from 'framer-motion';
+import { PropagateLoader } from 'react-spinners';
 
 const TodoBoard = ({
   todoList,
   handleDeleteTask,
   handleUpdateTask,
-  taskLoading,
+  isLoading,
 }) => {
   const [month, setMonth] = useState('');
   const [day, setDay] = useState('');
   const [year, setYear] = useState('');
-
   useEffect(() => {
     const today = new Date();
     const year = today.getFullYear();
@@ -38,39 +38,45 @@ const TodoBoard = ({
   }, []);
 
   return (
-    <div className={styles.todoBoard}>
-      <h2 className={styles.date}>
-        <span className={styles.day}>{day}</span>
-        <div className={styles.date2}>
-          <span className={styles.year}>{year}</span>
-          <span className={styles.month}>{month}</span>
+    <>
+      {isLoading && (
+        <div className={styles.loading}>
+          <PropagateLoader color="#8f8f8f" loading={isLoading} size={10} />
         </div>
-      </h2>
-      <AnimatePresence>
-        {todoList.length > 0 ? (
-          todoList.map((item, index) => (
-            <motion.div
-              key={item._id}
-              initial={{ opacity: 0, x: 100 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -100 }}
-              transition={{ duration: 0.5 }}
-            >
-              <TodoItem
-                task={item.task}
-                id={item._id}
-                handleDeleteTask={handleDeleteTask}
-                handleUpdateTask={handleUpdateTask}
-                isComplete={item.isComplete}
-                isLoading={taskLoading[item._id]}
-              />
-            </motion.div>
-          ))
-        ) : (
-          <p className={styles.noText}> 할일을 입력해 주세요 :) </p>
-        )}
-      </AnimatePresence>
-    </div>
+      )}
+      <div className={styles.todoBoard}>
+        <h2 className={styles.date}>
+          <span className={styles.day}>{day}</span>
+          <div className={styles.date2}>
+            <span className={styles.year}>{year}</span>
+            <span className={styles.month}>{month}</span>
+          </div>
+        </h2>
+        <AnimatePresence>
+          {todoList.length > 0 ? (
+            todoList.map((item, index) => (
+              <motion.div
+                key={item._id}
+                initial={{ opacity: 0, x: 100 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -100 }}
+                transition={{ duration: 0.5 }}
+              >
+                <TodoItem
+                  task={item.task}
+                  id={item._id}
+                  handleDeleteTask={handleDeleteTask}
+                  handleUpdateTask={handleUpdateTask}
+                  isComplete={item.isComplete}
+                />
+              </motion.div>
+            ))
+          ) : (
+            <p className={styles.noText}> 할일을 입력해 주세요 :) </p>
+          )}
+        </AnimatePresence>
+      </div>
+    </>
   );
 };
 

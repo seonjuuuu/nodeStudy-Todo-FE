@@ -3,12 +3,21 @@ import { useEffect, useState } from 'react';
 import api from '../utils/api';
 import styles from './TodoPage.module.scss';
 import Loading from '../components/Loading';
+import ProgressBar from '../components/ProgressBar';
 
 function TodoPage() {
   const [taskValue, setTaskValue] = useState('');
   const [todoList, setTodoList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [taskLoading, setTaskLoading] = useState({});
+  const [progressTask, setProgressTask] = useState(0);
+
+  useEffect(() => {
+    console.log('task', todoList);
+    const completed = todoList.filter((item) => item.isComplete).length;
+    const all = todoList.length;
+    const getPercent = (completed / all) * 100;
+    setProgressTask(Math.ceil(getPercent));
+  }, [todoList]);
 
   const getTaskList = async () => {
     try {
@@ -57,20 +66,20 @@ function TodoPage() {
 
   const handleDeleteTask = async (id) => {
     try {
-      setTaskLoading((prev) => ({ ...prev, [id]: true }));
+      setIsLoading(true);
       const res = await api.delete(`/tasks/${id}`);
       if (res.status !== 200) throw Error('fail delete');
       getTaskList();
     } catch (err) {
       console.error(err);
     } finally {
-      setTaskLoading((prev) => ({ ...prev, [id]: false }));
+      setIsLoading(false);
     }
   };
 
   const handleUpdateTask = async (id) => {
     try {
-      setTaskLoading((prev) => ({ ...prev, [id]: true }));
+      setIsLoading(true);
       const taskUpdate = todoList.find((item) => item._id === id);
       if (!taskUpdate) return;
 
@@ -84,7 +93,7 @@ function TodoPage() {
     } catch (error) {
       console.error(error);
     } finally {
-      setTaskLoading((prev) => ({ ...prev, [id]: false }));
+      setIsLoading(false);
     }
   };
 
@@ -113,14 +122,21 @@ function TodoPage() {
             onKeyDown={handleKeyDown}
           />
         </div>
+
         <div>
           <button
             className={styles.buttonAdd}
             onClick={addTask}
             disabled={isLoading}
           >
-            {isLoading ? '추가 중...' : '추가'}
+            추가
           </button>
+        </div>
+      </div>
+      <div className={styles.progress}>
+        <p className={styles.progressText}>진행률 {progressTask}%</p>
+        <div className={styles.progressBar}>
+          <ProgressBar progress={progressTask} />
         </div>
       </div>
       {isLoading && !todoList.length ? (
@@ -130,7 +146,7 @@ function TodoPage() {
           todoList={todoList}
           handleDeleteTask={handleDeleteTask}
           handleUpdateTask={handleUpdateTask}
-          taskLoading={taskLoading}
+          isLoading={isLoading}
         />
       )}
     </div>
