@@ -66,6 +66,7 @@ const TodoBoard = ({
             <span className={styles.year}>{year}</span>
             <span className={styles.month}>{month}</span>
           </div>
+          <p className={styles.text}>✨ 드로그앤 드랍이 가능해요 :) </p>
         </h2>
         <DragDropContext onDragEnd={handleOnDragEnd}>
           <Droppable droppableId="droppable">
