@@ -69,7 +69,6 @@ const LoginPage = () => {
                 <label htmlFor="email">이메일</label>
                 <input
                   type="email"
-                  ㄹ
                   id="email"
                   placeholder="이메일을 입력해주세요"
                   onChange={(event) => setEmail(event.target.value)}

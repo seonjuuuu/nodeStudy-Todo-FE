@@ -16,71 +16,95 @@ const RegisterPage = () => {
 
   const navigate = useNavigate();
 
-  const validateFields = () => {
-    const newErrors = {};
-    const newValidFields = {};
+  // 필드별 검증 함수
+  const validateField = (field, value) => {
+    const newErrors = { ...errors };
+    const newValidFields = { ...isValidField };
 
-    if (name.trim() === '') {
-      newErrors.name = '이름을 입력해 주세요';
-      newValidFields.name = false;
-    } else {
-      if(name.length < 3 || name.length > 11) {
+    if (field === 'name') {
+      if (value.trim() === '') {
+        newErrors.name = '이름을 입력해 주세요';
+        newValidFields.name = false;
+      } else if (value.length < 3 || value.length > 11) {
         newErrors.name = '이름은 3~11자 사이로 입력해 주세요';
         newValidFields.name = false;
       } else {
+        newErrors.name = '';
         newValidFields.name = true;
       }
     }
 
-    if (email.trim() === '') {
-      newErrors.email = '이메일을 입력해 주세요';
-      newValidFields.email = false;
-    } else {
+    if (field === 'email') {
       const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-      if (!emailRegex.test(email)) {
+      if (value.trim() === '') {
+        newErrors.email = '이메일을 입력해 주세요';
+        newValidFields.email = false;
+      } else if (!emailRegex.test(value)) {
         newErrors.email = '이메일 형식에 맞지 않습니다.';
         newValidFields.email = false;
       } else {
+        newErrors.email = '';
         newValidFields.email = true;
       }
     }
 
-    if (password.trim() === '') {
-      newErrors.password = '비밀번호를 입력해 주세요';
-      newValidFields.password = false;
-    } else {
+    if (field === 'password') {
       const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
-      if (!passwordRegex.test(password)) {
+      if (value.trim() === '') {
+        newErrors.password = '비밀번호를 입력해 주세요';
+        newValidFields.password = false;
+      } else if (!passwordRegex.test(value)) {
         newErrors.password = '비밀번호는 숫자, 대문자, 특수문자 포함 최소 8자 이상이어야 합니다.';
         newValidFields.password = false;
       } else {
+        newErrors.password = '';
         newValidFields.password = true;
       }
     }
 
-    if (repassword.trim() === '') {
-      newErrors.repassword = '비밀번호 확인을 입력해 주세요';
-      newValidFields.repassword = false;
-    } else if (repassword !== password) {
-      newErrors.repassword = '비밀번호가 일치하지 않습니다. 다시 확인해 주세요.';
-      newValidFields.repassword = false;
-    } else {
-      newValidFields.repassword = true;
+    if (field === 'repassword') {
+      if (value.trim() === '') {
+        newErrors.repassword = '비밀번호 확인을 입력해 주세요';
+        newValidFields.repassword = false;
+      } else if (value !== password) {
+        newErrors.repassword = '비밀번호가 일치하지 않습니다. 다시 확인해 주세요.';
+        newValidFields.repassword = false;
+      } else {
+        newErrors.repassword = '';
+        newValidFields.repassword = true;
+      }
     }
 
     setErrors(newErrors);
     setIsValidField(newValidFields);
-
-    return Object.keys(newErrors).length === 0;
   };
 
   const handleBlur = (field) => {
-    validateFields();
+    const value =
+      field === 'name'
+        ? name
+        : field === 'email'
+        ? email
+        : field === 'password'
+        ? password
+        : repassword;
+    validateField(field, value);
+  };
+
+  const validateFields = () => {
+    validateField('name', name);
+    validateField('email', email);
+    validateField('password', password);
+    validateField('repassword', repassword);
+    const hasErrors = Object.values(errors).some(error => error !== '');
+
+    return !hasErrors && Object.values(isValidField).every((valid) => valid);
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (!validateFields()) {
+      console.log('유효성 검사 실패');
       return;
     }
     setIsLoading(true);
@@ -174,7 +198,7 @@ const RegisterPage = () => {
                 회원가입
               </button>
               <span className={styles.link}>
-                이미 회원이신가요? <Link to="/login">로그인 하기</Link>
+                이미 회원이신가요? <Link to="/">로그인 하기</Link>
               </span>
             </form>
           </div>
