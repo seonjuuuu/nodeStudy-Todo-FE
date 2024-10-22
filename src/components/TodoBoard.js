@@ -3,6 +3,7 @@ import TodoItem from './TodoItem';
 import styles from './TodoBoard.module.scss';
 import { PropagateLoader } from 'react-spinners';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import api from '../utils/api';
 
 const TodoBoard = ({
   todoList,
@@ -40,7 +41,8 @@ const TodoBoard = ({
   }, []);
 
   useEffect(() => {
-    setList(todoList);
+    const todoListSort = [...todoList].sort((a, b) => a.order - b.order);
+    setList(todoListSort);
   }, [todoList]);
 
   const handleOnDragEnd = (result) => {
@@ -50,6 +52,19 @@ const TodoBoard = ({
     const [reorderedItem] = updatedList.splice(result.source.index, 1);
     updatedList.splice(result.destination.index, 0, reorderedItem);
     setList(updatedList);
+    reorder(updatedList);
+  };
+
+  const reorder = async (list) => {
+    try {
+      const params = {
+        newOrder: [...list],
+      };
+      const res = await api.put('/tasks/reorder', params);
+      console.log('res', res);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
