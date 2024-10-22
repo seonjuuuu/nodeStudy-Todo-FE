@@ -5,7 +5,7 @@ import styles from './Header.module.scss';
 const Header = () => {
   const navigate = useNavigate();
   const handleLogin = () => {
-    navigate('/login');
+    navigate('/');
   };
   return (
     <header className={styles.header}>
