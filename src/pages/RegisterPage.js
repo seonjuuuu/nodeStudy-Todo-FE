@@ -101,8 +101,16 @@ const RegisterPage = () => {
     return !hasErrors && Object.values(isValidField).every((valid) => valid);
   };
 
+  const allFieldsFilled = () => {
+    return name.trim() && email.trim() && password.trim() && repassword.trim();
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
+    if (!allFieldsFilled()) {
+      alert('모든 필드를 채워주세요.');
+      return;
+    }
     if (!validateFields()) {
       console.log('유효성 검사 실패');
       return;
