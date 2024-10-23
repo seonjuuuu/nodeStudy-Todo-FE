@@ -17,7 +17,7 @@ const Header = ({ user, setUser }) => {
       <div className={styles.right}>
         <div>
           👋
-          <span className={styles.name}>{user.name}</span>님 안녕하세요!
+          <span className={styles.name}>{user.name}</span>님
         </div>
         <button className={styles.loginBtn} onClick={handleLogin}>
           로그아웃
