@@ -1,14 +1,13 @@
 import React, { useRef, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import api from '../utils/api';
 
 import styles from './LoginPage.module.scss';
 import Loading from '../components/Loading';
 
-const LoginPage = () => {
+const LoginPage = ({ setUser, user }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [user, setUser] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -41,7 +40,7 @@ const LoginPage = () => {
         setUser(res.data.user);
         sessionStorage.setItem('token', res.data.token);
         api.defaults.headers['authorization'] = 'Bearer ' + res.data.token;
-        navigate('/home');
+        navigate('/');
       } else {
         throw new Error(res.message);
       }
@@ -55,6 +54,9 @@ const LoginPage = () => {
     }
   };
 
+  if (user) {
+    return <Navigate to="/" />;
+  }
   return (
     <div className={styles.container}>
       {isLoading ? (

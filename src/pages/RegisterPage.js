@@ -224,7 +224,7 @@ const RegisterPage = () => {
                 회원가입
               </button>
               <span className={styles.link}>
-                이미 회원이신가요? <Link to="/">로그인 하기</Link>
+                이미 회원이신가요? <Link to="/login">로그인 하기</Link>
               </span>
             </form>
           </div>
