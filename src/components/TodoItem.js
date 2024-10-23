@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styles from './TodoItem.module.scss';
 import { HiTrash } from 'react-icons/hi2';
+import { durationText } from '../utils/date';
 
 const TodoItem = ({
   task,
@@ -10,6 +11,7 @@ const TodoItem = ({
   isComplete,
   author,
   user,
+  created,
 }) => {
   const [isWriter, setIsWriter] = useState(true);
 
@@ -50,8 +52,9 @@ const TodoItem = ({
         className={`${styles.todoContent} ${isComplete ? styles.completed : ''}`}
       >
         <div className={styles.detail}>
+          <div className={styles.time}>{durationText(created)}</div>
           <div className={styles.task}>{task}</div>
-          <div className={styles.author}>by. {author.name}</div>
+          <div className={styles.author}>by.{author.name} </div>
         </div>
         {isWriter && (
           <button className={styles.buttonDelete} onClick={deleteItem}>

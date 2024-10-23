@@ -116,6 +116,7 @@ const TodoBoard = ({
                             handleUpdateTask={handleUpdateTask}
                             isComplete={item.isComplete}
                             user={user}
+                            created={item.createdAt}
                           />
                         </div>
                       )}
