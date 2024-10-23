@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './Header.module.scss';
 
@@ -10,10 +10,6 @@ const Header = ({ user, setUser }) => {
     setUser(null);
     navigate('/login');
   };
-
-  useEffect(() => {
-    console.log('user', user);
-  }, [user]);
 
   return (
     <header className={styles.header}>
