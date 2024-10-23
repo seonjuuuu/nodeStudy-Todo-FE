@@ -10,6 +10,7 @@ const TodoBoard = ({
   handleDeleteTask,
   handleUpdateTask,
   isLoading,
+  user,
 }) => {
   const [month, setMonth] = useState('');
   const [day, setDay] = useState('');
@@ -109,11 +110,12 @@ const TodoBoard = ({
                         >
                           <TodoItem
                             task={item.task}
-                            author={item?.author?.name}
+                            author={item.author}
                             id={item._id}
                             handleDeleteTask={handleDeleteTask}
                             handleUpdateTask={handleUpdateTask}
                             isComplete={item.isComplete}
+                            user={user}
                           />
                         </div>
                       )}

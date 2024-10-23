@@ -5,7 +5,7 @@ import styles from './TodoPage.module.scss';
 import Loading from '../components/Loading';
 import ProgressBar from '../components/ProgressBar';
 
-function TodoPage() {
+function TodoPage({ user }) {
   const [taskValue, setTaskValue] = useState('');
   const [todoList, setTodoList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -146,6 +146,7 @@ function TodoPage() {
           handleDeleteTask={handleDeleteTask}
           handleUpdateTask={handleUpdateTask}
           isLoading={isLoading}
+          user={user}
         />
       )}
     </div>

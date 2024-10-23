@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './TodoItem.module.scss';
 import { HiTrash } from 'react-icons/hi2';
 
@@ -9,7 +9,10 @@ const TodoItem = ({
   handleUpdateTask,
   isComplete,
   author,
+  user,
 }) => {
+  const [isWriter, setIsWriter] = useState(true);
+
   const deleteItem = async () => {
     if (!window.confirm('정말 삭제하시겠습니까?')) return;
     try {
@@ -26,6 +29,10 @@ const TodoItem = ({
       console.error(err);
     }
   };
+
+  useEffect(() => {
+    setIsWriter(user._id === author._id);
+  }, [user, author]);
 
   return (
     <div className={styles.todoItem}>
@@ -44,11 +51,13 @@ const TodoItem = ({
       >
         <div className={styles.detail}>
           <div className={styles.task}>{task}</div>
-          <div className={styles.author}>by. {author}</div>
+          <div className={styles.author}>by. {author.name}</div>
         </div>
-        <button className={styles.buttonDelete} onClick={deleteItem}>
-          <HiTrash size="25" />
-        </button>
+        {isWriter && (
+          <button className={styles.buttonDelete} onClick={deleteItem}>
+            <HiTrash size="25" />
+          </button>
+        )}
       </div>
     </div>
   );

@@ -40,7 +40,7 @@ function App() {
         element={
           <PrivateRoute user={user}>
             <Layout user={user} setUser={setUser}>
-              <TodoPage />
+              <TodoPage user={user} />
             </Layout>
           </PrivateRoute>
         }
