@@ -19,7 +19,7 @@
   transition:
     background-color 0.3s,
     color 0.3s;
-
+  color: #5a5a5a;
   &.completed {
     background-color: #f0f0f0;
     color: #aaa;
@@ -76,4 +76,14 @@
     display: inline-block;
     transition: background-color 0.3s;
   }
+}
+
+.detail {
+  display: flex;
+  flex-direction: column;
+}
+
+.author {
+  font-size: 13px;
+  color: #9a9a9a;
 }

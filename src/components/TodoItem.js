@@ -8,6 +8,7 @@ const TodoItem = ({
   handleDeleteTask,
   handleUpdateTask,
   isComplete,
+  author,
 }) => {
   const deleteItem = async () => {
     if (!window.confirm('정말 삭제하시겠습니까?')) return;
@@ -41,7 +42,10 @@ const TodoItem = ({
       <div
         className={`${styles.todoContent} ${isComplete ? styles.completed : ''}`}
       >
-        <div>{task}</div>
+        <div className={styles.detail}>
+          <div className={styles.task}>{task}</div>
+          <div className={styles.author}>by. {author}</div>
+        </div>
         <button className={styles.buttonDelete} onClick={deleteItem}>
           <HiTrash size="25" />
         </button>
